@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>hibp_login_check</id>
+	<name>HIBP Login check</name>
+	<summary>Check peoples passwords on login against HIBP</summary>
+	<description>Using passwords that appear in known breaches is not a good idea. This will run a check during each login to verify you account is still safe.</description>
+	<version>0.0.1</version>
+	<licence>agpl</licence>
+	<author>Roeland Jago Douma</author>
+	<namespace>HibpLoginCheck</namespace>
+	<category>security</category>
+
+	<website>https://github.com/rullzer/hibp_login_check</website>
+	<bugs>https://github.com/rullzer/hibp_login_check/issues</bugs>
+	<repository type="git">https://github.com/rullzer/hibp_login_check.git</repository>
+	<dependencies>
+		<nextcloud min-version="25" max-version="26" />
+	</dependencies>
+</info>
