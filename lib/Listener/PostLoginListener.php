@@ -34,25 +34,26 @@ use OCP\User\Events\PostLoginEvent;
 use Psr\Log\LoggerInterface;
 
 class PostLoginListener implements IEventListener {
+	private LoggerInterface $logger;
+	private IClientService $clientService;
+	private IManager $notificationManager;
 
-    private LoggerInterface $logger;
-    private IClientService $clientService;
-    private IManager $notificationManager;
-
-    public function __construct(LoggerInterface $logger, IClientService $clientService, IManager $notificationManager) {
-        $this->logger = $logger;
-        $this->clientService = $clientService;
-        $this->notificationManager = $notificationManager;
-    }
+	public function __construct(LoggerInterface $logger, IClientService $clientService, IManager $notificationManager) {
+		$this->logger = $logger;
+		$this->clientService = $clientService;
+		$this->notificationManager = $notificationManager;
+	}
 
 	public function handle(Event $event): void {
-        if (!($event instanceof PostLoginEvent)) {{
-            return;
-        }}
+		if (!($event instanceof PostLoginEvent)) {
+			{
+				return;
+			}
+		}
 
-        $client = $this->clientService->newClient();
+		$client = $this->clientService->newClient();
 
-        $hash = sha1($event->getPassword());
+		$hash = sha1($event->getPassword());
 		$range = substr($hash, 0, 5);
 		$needle = strtoupper(substr($hash, 5));
 
@@ -68,22 +69,22 @@ class PostLoginListener implements IEventListener {
 			);
 		} catch (\Exception $e) {
 			$this->logger->info("Could not contat HIBP", ["exception" => $e]);
-            return;
+			return;
 		}
 
 		$result = $response->getBody();
 		$result = preg_replace('/^([0-9A-Z]+:0)$/m', '', $result);
 
 		if (strpos($result, $needle) == false) {
-            return;
+			return;
 		}
 
-        $notification = $this->notificationManager->createNotification();
-        $notification->setApp(Application::APP_NAME)
+		$notification = $this->notificationManager->createNotification();
+		$notification->setApp(Application::APP_NAME)
 			->setUser($event->getUser()->getUID())
 			->setDateTime(new \DateTime())
 			->setObject('hibplogincheck', 'login')
 			->setSubject('hibplogincheck');
 		$this->notificationManager->notify($notification);
-    }
+	}
 }

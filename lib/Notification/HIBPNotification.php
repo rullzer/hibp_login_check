@@ -33,7 +33,6 @@ use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
 class HIBPNotification implements INotifier {
-
 	/** @var IFactory */
 	private $l10nFactory;
 
