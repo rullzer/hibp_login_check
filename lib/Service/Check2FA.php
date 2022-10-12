@@ -34,15 +34,9 @@ use OCP\IUser;
 use OCP\Notification\IManager;
 
 class Check2FA {
-
-	/** @var IRegistry */
-	private $registry;
-
-	/** @var IManager */
-	private $notificationManager;
-
-	/** @var ProviderLoader */
-	private $providerLoader;
+	private IRegistry $registry;
+	private IManager $notificationManager;
+	private ProviderLoader $providerLoader;
 
 	public function __construct(IRegistry $registry, IManager $notificationManager, ProviderLoader $providerLoader) {
 		$this->registry = $registry;
@@ -53,7 +47,7 @@ class Check2FA {
 	public function processUser(IUser $user) {
 		$states = $this->registry->getProviderStates($user);
 
-		$enabled = array_reduce(array_values($states), function(bool $carry, bool $item) {
+		$enabled = array_reduce(array_values($states), function (bool $carry, bool $item): bool {
 			return $carry || $item;
 		}, false);
 
@@ -64,7 +58,7 @@ class Check2FA {
 
 		$possibleProviders = $this->providerLoader->getProviders($user);
 
-		$possibleProviders = array_filter($possibleProviders, function(IProvider $provider) {
+		$possibleProviders = array_filter($possibleProviders, function (IProvider $provider) {
 			return $provider->getId() !== 'backup_codes';
 		});
 
