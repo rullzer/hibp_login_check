@@ -15,6 +15,6 @@
 	<bugs>https://github.com/rullzer/hibp_login_check/issues</bugs>
 	<repository type="git">https://github.com/rullzer/hibp_login_check.git</repository>
 	<dependencies>
-		<nextcloud min-version="25" max-version="26" />
+		<nextcloud min-version="25" max-version="28" />
 	</dependencies>
 </info>
